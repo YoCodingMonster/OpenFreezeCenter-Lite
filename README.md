@@ -2,7 +2,7 @@
 OpenFreezeCenter-Lite allows users to read/write and control the EC of laptops, specially MSI!
 
 # INSTALLATION
-- Install EC-Controller library for python from https://pypi.org/project/EC-Controller/ by following instructions on properly setting it up!
+- Install ECTweaker library for python from https://pypi.org/project/ECTweaker/ by following instructions on properly setting it up!
 - Make sure ```secure boot``` is disabled.
 - Make Sure that you have ```Auto``` fan profile set on laptop.
   - You can do this by booting up windows an choosing ```Auto``` fan profile and then booting back to linux.
