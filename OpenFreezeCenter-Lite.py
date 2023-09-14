@@ -1,39 +1,39 @@
 #! /usr/bin/python3
 
-import EC_Controller as ECC
+import ECTweaker as ECT
 
 def set_fan_mode():
     MODE = input("Set Fan Mode\n1 - Auto\n2 - Basic\n3 - Advanced\n4 - Cooler Booster [1 or 2 or 3 or 4] :-> ")
     if MODE == 1:
-        ECC.byte_interpreter("auto")
+        ECT.byte_interpreter("auto")
         auto()
     elif MODE == 2:
-        ECC.byte_interpreter("basic")
+        ECT.byte_interpreter("basic")
         basic()
     elif MODE == 3:
-        ECC.byte_interpreter("advanced")
+        ECT.byte_interpreter("advanced")
         advanced()
     elif MODE == 4:
-        ECC.byte_interpreter("cooler booster")
+        ECT.byte_interpreter("cooler booster")
     else:
         set_fan_mode()
 
 def setter(SPEED, OFFSET):
-    ECC.byte_interpreter("CPU_FAN_1", SPEED[0] + OFFSET)
-    ECC.byte_interpreter("CPU_FAN_2", SPEED[1] + OFFSET)
-    ECC.byte_interpreter("CPU_FAN_3", SPEED[2] + OFFSET)
-    ECC.byte_interpreter("CPU_FAN_4", SPEED[3] + OFFSET)
-    ECC.byte_interpreter("CPU_FAN_5", SPEED[4] + OFFSET)
-    ECC.byte_interpreter("CPU_FAN_6", SPEED[5] + OFFSET)
-    ECC.byte_interpreter("CPU_FAN_7", SPEED[6] + OFFSET)
+    ECT.byte_interpreter("CPU_FAN_1", SPEED[0] + OFFSET)
+    ECT.byte_interpreter("CPU_FAN_2", SPEED[1] + OFFSET)
+    ECT.byte_interpreter("CPU_FAN_3", SPEED[2] + OFFSET)
+    ECT.byte_interpreter("CPU_FAN_4", SPEED[3] + OFFSET)
+    ECT.byte_interpreter("CPU_FAN_5", SPEED[4] + OFFSET)
+    ECT.byte_interpreter("CPU_FAN_6", SPEED[5] + OFFSET)
+    ECT.byte_interpreter("CPU_FAN_7", SPEED[6] + OFFSET)
 
-    ECC.byte_interpreter("GPU_FAN_1", SPEED[7] + OFFSET)
-    ECC.byte_interpreter("GPU_FAN_2", SPEED[8] + OFFSET)
-    ECC.byte_interpreter("GPU_FAN_3", SPEED[9] + OFFSET)
-    ECC.byte_interpreter("GPU_FAN_4", SPEED[10] + OFFSET)
-    ECC.byte_interpreter("GPU_FAN_5", SPEED[11] + OFFSET)
-    ECC.byte_interpreter("GPU_FAN_6", SPEED[12] + OFFSET)
-    ECC.byte_interpreter("GPU_FAN_7", SPEED[13] + OFFSET)
+    ECT.byte_interpreter("GPU_FAN_1", SPEED[7] + OFFSET)
+    ECT.byte_interpreter("GPU_FAN_2", SPEED[8] + OFFSET)
+    ECT.byte_interpreter("GPU_FAN_3", SPEED[9] + OFFSET)
+    ECT.byte_interpreter("GPU_FAN_4", SPEED[10] + OFFSET)
+    ECT.byte_interpreter("GPU_FAN_5", SPEED[11] + OFFSET)
+    ECT.byte_interpreter("GPU_FAN_6", SPEED[12] + OFFSET)
+    ECT.byte_interpreter("GPU_FAN_7", SPEED[13] + OFFSET)
 
 def auto():
     setter(AUTO_SPEED, 0)
@@ -69,21 +69,21 @@ def advanced():
 
 if 'AUTO_SPEED' not in globals():
     AUTO_SPEED = []
-    AUTO_SPEED.append(str(ECC.read(0x72)))
-    AUTO_SPEED.append(str(ECC.read(0x73)))
-    AUTO_SPEED.append(str(ECC.read(0x74)))
-    AUTO_SPEED.append(str(ECC.read(0x75)))
-    AUTO_SPEED.append(str(ECC.read(0x76)))
-    AUTO_SPEED.append(str(ECC.read(0x77)))
-    AUTO_SPEED.append(str(ECC.read(0x78)))
+    AUTO_SPEED.append(str(ECT.read(0x72)))
+    AUTO_SPEED.append(str(ECT.read(0x73)))
+    AUTO_SPEED.append(str(ECT.read(0x74)))
+    AUTO_SPEED.append(str(ECT.read(0x75)))
+    AUTO_SPEED.append(str(ECT.read(0x76)))
+    AUTO_SPEED.append(str(ECT.read(0x77)))
+    AUTO_SPEED.append(str(ECT.read(0x78)))
 
-    AUTO_SPEED.append(str(ECC.read(0x8a)))
-    AUTO_SPEED.append(str(ECC.read(0x8b)))
-    AUTO_SPEED.append(str(ECC.read(0x8c)))
-    AUTO_SPEED.append(str(ECC.read(0x8d)))
-    AUTO_SPEED.append(str(ECC.read(0x8e)))
-    AUTO_SPEED.append(str(ECC.read(0x8f)))
-    AUTO_SPEED.append(str(ECC.read(0x90)))
+    AUTO_SPEED.append(str(ECT.read(0x8a)))
+    AUTO_SPEED.append(str(ECT.read(0x8b)))
+    AUTO_SPEED.append(str(ECT.read(0x8c)))
+    AUTO_SPEED.append(str(ECT.read(0x8d)))
+    AUTO_SPEED.append(str(ECT.read(0x8e)))
+    AUTO_SPEED.append(str(ECT.read(0x8f)))
+    AUTO_SPEED.append(str(ECT.read(0x90)))
 
     with open(__file__, 'r') as file:
         SCRIPT = file.read().split('\n')
