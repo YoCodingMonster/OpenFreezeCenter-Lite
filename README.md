@@ -4,9 +4,6 @@ OpenFreezeCenter-Lite allows users to read/write and control the EC of laptops, 
 # INSTALLATION
 - Install ECTweaker library version 1.3 and above for python from https://pypi.org/project/ECTweaker/ by following instructions on properly setting it up!
 - Make sure ```secure boot``` is disabled.
-- Make Sure that you have ```Auto``` fan profile set on laptop.
-  - You can do this by booting up windows an choosing ```Auto``` fan profile and then booting back to linux.
-  - This needs to be done just once in your lifetime. But to do this is important.
 - run the ```OpenFreezeCenter.py``` with sudo.
 - DONE!
 
@@ -30,7 +27,6 @@ OpenFreezeCenter-Lite allows users to read/write and control the EC of laptops, 
 
 ## Goals
 - [X] Fan Control
-- [ ] Remove dependency on Windows to fetch vendor ```Auto``` fan curve
 - [ ] Basic temperature and RPM monitoring
 - [ ] EC Map View
 - [ ] Battery Threshold
