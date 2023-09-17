@@ -2,88 +2,104 @@
 
 import ECTweaker as ECT
 
+AUTO_SPEED = [0,40,48,56,64,72,80,0,48,56,64,72,79,86]
+# AUTO_SPEED_CREATED HERE
+
+# CPU_FAN_PROFILE_BYTE             VALUES[0][0]   BYTE ADDRESS              FAN PROFILES BYTE AND VALUES
+# CPU_FAN_PROFILE_VALUE_AUTO       VALUES[0][1]   BYTE VALUE
+# CPU_FAN_PROFILE_VALUE_ADVANCED   VALUES[0][2]   BYTE VALUE
+
+# CPU_COOLER_BOOSTER_BYTE          VALUES[1][0]   BYTE ADDRESS              COOLER BOOSTER BYTE AND VALUES
+# CPU_COOLER_BOOSTER_VALUE         VALUES[1][1]   BYTE VALUE [off]
+# CPU_COOLER_BOOSTER_VALUE         VALUES[1][2]   BYTE VALUE [on]
+
+# CPU_FAN_SPEED_1_BYTE             VALUES[2][0]   BYTE ADDRESS              CPU FAN SPEEDS ADDRESS
+# CPU_FAN_SPEED_2_BYTE             VALUES[2][1]   BYTE ADDRESS
+# CPU_FAN_SPEED_3_BYTE             VALUES[2][2]   BYTE ADDRESS
+# CPU_FAN_SPEED_4_BYTE             VALUES[2][3]   BYTE ADDRESS
+# CPU_FAN_SPEED_5_BYTE             VALUES[2][4]   BYTE ADDRESS
+# CPU_FAN_SPEED_6_BYTE             VALUES[2][5]   BYTE ADDRESS
+# CPU_FAN_SPEED_7_BYTE             VALUES[2][6]   BYTE ADDRESS
+
+# GPU_FAN_SPEED_1_BYTE             VALUES[3][0]   BYTE ADDRESS              GPU FAN SPEEDS ADDRESS
+# GPU_FAN_SPEED_2_BYTE             VALUES[3][1]   BYTE ADDRESS
+# GPU_FAN_SPEED_3_BYTE             VALUES[3][2]   BYTE ADDRESS
+# GPU_FAN_SPEED_4_BYTE             VALUES[3][3]   BYTE ADDRESS
+# GPU_FAN_SPEED_5_BYTE             VALUES[3][4]   BYTE ADDRESS
+# GPU_FAN_SPEED_6_BYTE             VALUES[3][5]   BYTE ADDRESS
+# GPU_FAN_SPEED_7_BYTE             VALUES[3][6]   BYTE ADDRESS
+
+# AUTO_FAN_SPEEDS_VENDOR_VALUES    VALUES[4][]    BYTE ADDRESS              AUTO FAN SPEEDS
+
+# CPU_CURRENT_TEMPERATURE_BYTE     VALUES[5][0]   BYTE ADDRESS              CPU CURRENT TEMPERATURE ADDRESS
+
+VALUES = []
+
+# Select the FAN CURVE profiles
+
+def cpu_gen():
+    CPU_GEN = input("is your CPU Intel 10th gen and above [y/n] :-> ")
+    if CPU_GEN == 'y' or CPU_GEN == 'Y':
+        CPU_GEN = "NEW"
+    elif CPU_GEN == 'n' or CPU_GEN == 'N':
+        CPU_GEN = "OLD"
+    else:
+        cpu_gen()
+    
+    if CPU_GEN == "NEW":
+        VALUES = [[0xd4, 13, 141],
+                  [0x98, 2, 130],
+                  [0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78],
+                  [0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90],
+                  AUTO_SPEED]
+    else:
+        VALUES = [[0xf4, 12, 140],
+                  [0x98, 0, 128],
+                  [0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78],
+                  [0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90],
+                  AUTO_SPEED]
+    return VALUES
+
 def set_fan_mode():
-    MODE = input("Set Fan Mode\n1 - Auto\n2 - Basic\n3 - Advanced\n4 - Cooler Booster [1 or 2 or 3 or 4] :-> ")
+    VALUES = cpu_gen()
+    MODE = int(input("Set Fan Mode\n1 - Auto\n2 - Basic\n3 - Advanced\n4 - Cooler Booster [1 or 2 or 3 or 4] :-> "))
     if MODE == 1:
-        ECT.byte_interpreter("auto")
-        auto()
+        ECT.fan_profile("auto", VALUES)
+
     elif MODE == 2:
-        ECT.byte_interpreter("basic")
-        basic()
+        OFFSET = int(input("Select one option for fan speed\n1 - Slower\n2 - Slow\n3 - Normal\n4 - Fast\n5 - Faster [1 or 2 or 3 or 4 or 5] :-> "))
+        while OFFSET > 0 and OFFSET < 6:
+            for i in range(len(AUTO_SPEED)):
+                AUTO_SPEED[i] += (OFFSET * 10) - 30
+                if AUTO_SPEED[i] < 0:
+                    AUTO_SPEED[i] = 0
+                if AUTO_SPEED[i] > 150:
+                    AUTO_SPEED[i] = 150
+            ECT.fan_profile("advanced", VALUES)
+            break
+        else:
+            OFFSET = int(input("Select one option for fan speed\n1 - Slower\n2 - Slow\n3 - Normal\n4 - Fast\n5 - Faster [1 or 2 or 3 or 4 or 5] :-> "))
+
     elif MODE == 3:
-        ECT.byte_interpreter("advanced")
-        advanced()
+        ADV_SPEED_CPU = [0, 40, 48, 56, 64, 72, 80] # CPU FAN speed at LOWEST, LOWER, LOW, MEDIUM, HIGH, HIGHER, HIGHEST CPU TEMP
+        ADV_SPEED_GPU = [0, 48, 56, 64, 72, 79, 86] # GPU FAN speed at LOWEST, LOWER, LOW, MEDIUM, HIGH, HIGHER, HIGHEST GPU TEMP
+        VALUES[4] = ADV_SPEED_CPU + ADV_SPEED_GPU
+        ECT.fan_profile("advanced", VALUES)
+
     elif MODE == 4:
-        ECT.byte_interpreter("cooler booster")
+
+        ECT.fan_profile("cooler booster", VALUES)
+        print("Cooler Booster - ", "ON" if ECT.read(VALUES[1][0], 1) == VALUES[1][2] else "OFF")
+
     else:
         set_fan_mode()
 
-def setter(SPEED, OFFSET):
-    ECT.byte_interpreter("CPU_FAN_1", SPEED[0] + OFFSET)
-    ECT.byte_interpreter("CPU_FAN_2", SPEED[1] + OFFSET)
-    ECT.byte_interpreter("CPU_FAN_3", SPEED[2] + OFFSET)
-    ECT.byte_interpreter("CPU_FAN_4", SPEED[3] + OFFSET)
-    ECT.byte_interpreter("CPU_FAN_5", SPEED[4] + OFFSET)
-    ECT.byte_interpreter("CPU_FAN_6", SPEED[5] + OFFSET)
-    ECT.byte_interpreter("CPU_FAN_7", SPEED[6] + OFFSET)
-
-    ECT.byte_interpreter("GPU_FAN_1", SPEED[7] + OFFSET)
-    ECT.byte_interpreter("GPU_FAN_2", SPEED[8] + OFFSET)
-    ECT.byte_interpreter("GPU_FAN_3", SPEED[9] + OFFSET)
-    ECT.byte_interpreter("GPU_FAN_4", SPEED[10] + OFFSET)
-    ECT.byte_interpreter("GPU_FAN_5", SPEED[11] + OFFSET)
-    ECT.byte_interpreter("GPU_FAN_6", SPEED[12] + OFFSET)
-    ECT.byte_interpreter("GPU_FAN_7", SPEED[13] + OFFSET)
-
-def auto():
-    setter(AUTO_SPEED, 0)
-
-def basic():
-    OFFSET = input("Select one option for fan speed\n1 - Slower\n2 - Slow\n3 - Normal\n4 - Fast\n5 - Faster [1 or 2 or 3 or 4 or 5] :-> ")
-    if OFFSET > 0 and OFFSET < 6:
-        OFFSET = (OFFSET * 10) - 30
-        setter(AUTO_SPEED, OFFSET)
-    else:
-        basic()
-
-def advanced():
-    ADV_SPEED = []
-    ADV_SPEED.append(00) # CPU FAN speed at LOWEST CPU TEMP
-    ADV_SPEED.append(40) # CPU FAN speed at LOWER CPU TEMP
-    ADV_SPEED.append(48) # CPU FAN speed at LOW CPU TEMP
-    ADV_SPEED.append(56) # CPU FAN speed at MEDIUM CPU TEMP
-    ADV_SPEED.append(64) # CPU FAN speed at HIGH CPU TEMP
-    ADV_SPEED.append(72) # CPU FAN speed at HIGHER CPU TEMP
-    ADV_SPEED.append(80) # CPU FAN speed at HIGHEST CPU TEMP
-
-    ADV_SPEED.append(00) # GPU FAN speed at LOWEST GPU TEMP
-    ADV_SPEED.append(48) # GPU FAN speed at LOWER GPU TEMP
-    ADV_SPEED.append(56) # GPU FAN speed at LOW GPU TEMP
-    ADV_SPEED.append(64) # GPU FAN speed at MEDIUM GPU TEMP
-    ADV_SPEED.append(72) # GPU FAN speed at HIGH GPU TEMP
-    ADV_SPEED.append(79) # GPU FAN speed at HIGHER GPU TEMP
-    ADV_SPEED.append(86) # GPU FAN speed at HIGHEST GPU TEMP
-    setter(ADV_SPEED, 0)
-
-# AUTO SPEEDS HERE
+# Function called to set the AUTO fan curve used by the vendor.
 
 if 'AUTO_SPEED' not in globals():
-    AUTO_SPEED = []
-    AUTO_SPEED.append(str(ECT.read(0x72)))
-    AUTO_SPEED.append(str(ECT.read(0x73)))
-    AUTO_SPEED.append(str(ECT.read(0x74)))
-    AUTO_SPEED.append(str(ECT.read(0x75)))
-    AUTO_SPEED.append(str(ECT.read(0x76)))
-    AUTO_SPEED.append(str(ECT.read(0x77)))
-    AUTO_SPEED.append(str(ECT.read(0x78)))
-
-    AUTO_SPEED.append(str(ECT.read(0x8a)))
-    AUTO_SPEED.append(str(ECT.read(0x8b)))
-    AUTO_SPEED.append(str(ECT.read(0x8c)))
-    AUTO_SPEED.append(str(ECT.read(0x8d)))
-    AUTO_SPEED.append(str(ECT.read(0x8e)))
-    AUTO_SPEED.append(str(ECT.read(0x8f)))
-    AUTO_SPEED.append(str(ECT.read(0x90)))
+    AUTO_SPEED_CPU = [ECT.read(VALUES[2][0], 1), ECT.read(VALUES[2][1], 1), ECT.read(VALUES[2][2], 1), ECT.read(VALUES[2][3], 1), ECT.read(VALUES[2][4], 1), ECT.read(VALUES[2][5], 1), ECT.read(VALUES[2][6], 1)] # CPU FAN speed at LOWEST, LOWER, LOW, MEDIUM, HIGH, HIGHER, HIGHEST CPU TEMP
+    AUTO_SPEED_GPU = [ECT.read(VALUES[3][0], 1), ECT.read(VALUES[3][1], 1), ECT.read(VALUES[3][2], 1), ECT.read(VALUES[3][3], 1), ECT.read(VALUES[3][4], 1), ECT.read(VALUES[3][5], 1), ECT.read(VALUES[3][0], 1)] # GPU FAN speed at LOWEST, LOWER, LOW, MEDIUM, HIGH, HIGHER, HIGHEST GPU TEMP
+    AUTO_SPEED = AUTO_SPEED_CPU + AUTO_SPEED_GPU
 
     with open(__file__, 'r') as file:
         SCRIPT = file.read().split('\n')
@@ -91,10 +107,10 @@ if 'AUTO_SPEED' not in globals():
     with open(__file__,'w') as file:
         NEW_SCRIPT = []
         for LINE in SCRIPT:
-            if LINE != "# AUTO SPEEDS HERE":
+            if LINE == "# AUTO SPEEDS HERE":
+                LINE = "AUTO_SPEED = ["+str(AUTO_SPEED[0])+","+str(AUTO_SPEED[1])+","+str(AUTO_SPEED[2])+","+str(AUTO_SPEED[3])+","+str(AUTO_SPEED[4])+","+str(AUTO_SPEED[5])+","+str(AUTO_SPEED[6])+","+str(AUTO_SPEED[7])+","+str(AUTO_SPEED[8])+","+str(AUTO_SPEED[9])+","+str(AUTO_SPEED[10])+","+str(AUTO_SPEED[11])+","+str(AUTO_SPEED[12])+","+str(AUTO_SPEED[13])+"]"
                 NEW_SCRIPT.append(LINE)
             else:
-                LINE = "AUTO_SPEED = ["+AUTO_SPEED[0]+","+AUTO_SPEED[1]+","+ AUTO_SPEED[2]+","+AUTO_SPEED[3]+","+AUTO_SPEED[4]+","+AUTO_SPEED[5]+","+AUTO_SPEED[6]+","+AUTO_SPEED[7]+","+AUTO_SPEED[8]+","+AUTO_SPEED[9]+","+AUTO_SPEED[10]+","+AUTO_SPEED[11]+","+AUTO_SPEED[12]+","+AUTO_SPEED[13]+"]"
                 NEW_SCRIPT.append(LINE)
         file.write('\n'.join(NEW_SCRIPT))
 
