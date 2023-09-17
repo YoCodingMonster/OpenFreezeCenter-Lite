@@ -1,5 +1,6 @@
 #! /usr/bin/python3
 
+import os
 import ECTweaker as ECT
 
 AUTO_SPEED = [0,40,48,56,64,72,80,0,48,56,64,72,79,86]
@@ -63,6 +64,7 @@ def cpu_gen():
 def set_fan_mode():
     VALUES = cpu_gen()
     MODE = int(input("Set Fan Mode\n1 - Auto\n2 - Basic\n3 - Advanced\n4 - Cooler Booster [1 or 2 or 3 or 4] :-> "))
+
     if MODE == 1:
         ECT.fan_profile("auto", VALUES)
 
@@ -81,8 +83,8 @@ def set_fan_mode():
             OFFSET = int(input("Select one option for fan speed\n1 - Slower\n2 - Slow\n3 - Normal\n4 - Fast\n5 - Faster [1 or 2 or 3 or 4 or 5] :-> "))
 
     elif MODE == 3:
-        ADV_SPEED_CPU = [0, 40, 48, 56, 64, 72, 80] # CPU FAN speed at LOWEST, LOWER, LOW, MEDIUM, HIGH, HIGHER, HIGHEST CPU TEMP
-        ADV_SPEED_GPU = [0, 48, 56, 64, 72, 79, 86] # GPU FAN speed at LOWEST, LOWER, LOW, MEDIUM, HIGH, HIGHER, HIGHEST GPU TEMP
+        ADV_SPEED_CPU = [0, 50, 75, 100, 125, 150, 150] # CPU FAN speed at LOWEST, LOWER, LOW, MEDIUM, HIGH, HIGHER, HIGHEST CPU TEMP
+        ADV_SPEED_GPU = [0, 50, 75, 100, 125, 150, 150] # GPU FAN speed at LOWEST, LOWER, LOW, MEDIUM, HIGH, HIGHER, HIGHEST GPU TEMP
         VALUES[4] = ADV_SPEED_CPU + ADV_SPEED_GPU
         ECT.fan_profile("advanced", VALUES)
 
@@ -114,4 +116,9 @@ if 'AUTO_SPEED' not in globals():
                 NEW_SCRIPT.append(LINE)
         file.write('\n'.join(NEW_SCRIPT))
 
-set_fan_mode()
+CHECK = ECT.check()
+if CHECK != 1:
+    set_fan_mode()
+else:
+    os.system("shutdown -r +1")
+    print("Rebooting system within 1 min!\nPlease save all work before it happens!")
