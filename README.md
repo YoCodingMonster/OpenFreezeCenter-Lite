@@ -8,14 +8,16 @@ OpenFreezeCenter-Lite allows users to read/write and control the EC of laptops, 
 - DONE!
 
 # How to Use
+- If running for the first time, there are 2 outcomes.
+  - If the EC read/write is not enabled on your OS, the system will restart.
+  - If the EC read/write is enabled on your OS, the system will not restart and run your script.
 - Set the ```Fan Profile``` to.
   - Auto
   - Basic ```-20, -10, 0, +10, +20``` to the auto fan speeds
   - Advanced ```Complete manual mode```
     - To adjust the fan speeds this mode just edit the integer (1 to 150) for these lines in code. Dont worry you won't mess it up!
-    - ```ADV_SPEED_CPU = [0, 40, 48, 56, 64, 72, 80] # CPU FAN speed at LOWEST, LOWER, LOW, MEDIUM, HIGH, HIGHER, HIGHEST CPU TEMP```
-    - ```ADV_SPEED_GPU = [0, 48, 56, 64, 72, 79, 86] # GPU FAN speed at LOWEST, LOWER, LOW, MEDIUM, HIGH, HIGHER, HIGHEST GPU TEMP```
-
+    - ```ADV_SPEED_CPU = [0, 50, 75, 100, 125, 150, 150] # CPU FAN speed at LOWEST, LOWER, LOW, MEDIUM, HIGH, HIGHER, HIGHEST CPU TEMP```
+    - ```ADV_SPEED_GPU = [0, 50, 75, 100, 125, 150, 150] # GPU FAN speed at LOWEST, LOWER, LOW, MEDIUM, HIGH, HIGHER, HIGHEST GPU TEMP```
   - Cooler Booster toogle ```Switch between on/off state```
 
 ## Issue format
@@ -28,5 +30,4 @@ OpenFreezeCenter-Lite allows users to read/write and control the EC of laptops, 
 ## Goals
 - [X] Fan Control
 - [ ] Basic temperature and RPM monitoring
-- [ ] EC Map View
 - [ ] Battery Threshold
