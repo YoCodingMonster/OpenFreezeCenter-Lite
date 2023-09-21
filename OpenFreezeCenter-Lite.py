@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 import os
-import ECTweaker_test as ECT
+import ECTweaker as ECT
 
 # CPU_FAN_PROFILE_BYTE                  VALUES[0][0]   BYTE ADDRESS              FAN PROFILES BYTE AND VALUES
 # CPU_FAN_PROFILE_VALUE_AUTO            VALUES[0][1]   VALUE
