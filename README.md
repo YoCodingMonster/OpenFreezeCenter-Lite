@@ -24,6 +24,8 @@ OpenFreezeCenter-Lite allows users to read/write and control the EC of laptops, 
   - Runs in endless loop with 0.5 sec refresh time.
   - To end the monitoring, press any ```key interrupt``` in terminal like ```control + c```
 
+- ```bct()``` - Change the Upper Battery Charge limit from between 50 to 100.
+
 ## Supported Laptop models (tested)
 - MSI GP76 (11UG)
 - MSI GF65
