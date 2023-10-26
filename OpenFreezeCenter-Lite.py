@@ -60,7 +60,18 @@ def set_fan_mode():
                 ECT.fan_profile("advanced", VALUES)
     else:
         set_fan_mode()
-        
+
+########################################
+# Select the battery charging threshold#
+########################################
+
+def bct():
+    BCT = int(input("Input the upper charge limit for battery charging (50 to 80 is ideal for battery life)(100 for max battery):-> "))
+    if BCT < 50 or BCT > 100:
+        ECT.write(0xe4, (100 + BCT))
+    else:
+        bct()
+
 #####################################################
 # Monitor the CPU and GPU fan RPM's and Temperatures#
 #####################################################
@@ -87,10 +98,12 @@ def monitoring():
 ####################################################
 
 def function():
-    FUNC = int(input("1 -> Set Fan Profile\n2 -> Monitorting\nChoise -> "))
+    FUNC = int(input("1 -> Set Fan Profile\n2 -> Battery Charge Threshold\n3 -> Monitorting\nChoise -> "))
     if FUNC == 1:
         set_fan_mode()
     elif FUNC == 2:
+        bct()
+    elif FUNC == 3:
         monitoring()
     else:
         function()
