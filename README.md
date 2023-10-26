@@ -24,6 +24,17 @@ OpenFreezeCenter-Lite allows users to read/write and control the EC of laptops, 
   - Runs in endless loop with 0.5 sec refresh time.
   - To end the monitoring, press any ```key interrupt``` in terminal like ```control + c```
 
+## Supported Laptop models (tested)
+- MSI GP76 (11UG)
+- MSI GF65
+- MSI GF63 THIN (11UC, 11SC)
+
+## Supported Linux Distro (tested)
+- Ubuntu
+- Kubuntu
+- Fedora Workstation
+- Debian
+
 ## Issue format
 - ISSUE # [CPU] - [LAPTOP MODEL] - [LINUX DISTRO]
   - ```Example``` ISSUE # i7-11800H - MSI GP76 11UG - UBUNTU 23.05
