@@ -10,6 +10,10 @@ OpenFreezeCenter-Lite allows users to read/write and control the EC of laptops, 
   - If the EC read/write is enabled on your OS, the script will generate ```config.py``` file, which contains the configuration for fan curves and their addresses.
 - DONE!
 
+# Updating to newer release!
+- Just replace the old ```OFC-l.py``` with new ```OFC-l.py``` and you are done.
+- If the release notes doe's not say to modify the ```config.py``` then no need to touch that file for updating, if it's mentioned in the release notes, just follow them!
+
 # Functions
 - ```set_fan_mode()``` - Set the ```Fan Profile```
   - Auto
