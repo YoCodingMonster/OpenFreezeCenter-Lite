@@ -6,7 +6,7 @@ OpenFreezeCenter-Lite allows users to read/write and control the EC of laptops, 
 - Make sure ```secure boot``` is disabled.
 - run script ```OpenFreezeCenter-Lite.py``` with sudo like ```sudo python3 OpenFreezeCenter-Lite.py```
 - There are 2 outcomes.
-  - If the EC read/write is not enabled on your OS, the system will enable it and restart and follow up with the seconf point.
+  - If the EC read/write is not enabled on your OS, the system will enable it and restart. in this run script can show ```read/write``` error and ```FileNotFound``` error, Don't worry, just let the system restart.
   - If the EC read/write is enabled on your OS, the script will generate ```config.py``` file, which contains the configuration for fan curves and their addresses.
 - DONE!
 
@@ -28,6 +28,7 @@ OpenFreezeCenter-Lite allows users to read/write and control the EC of laptops, 
 - MSI GP76 (11UG)
 - MSI GF65
 - MSI GF63 THIN (11UC, 11SC)
+- MSI Creator Z16HX Studio
 
 ## Supported Linux Distro (tested)
 - Ubuntu
