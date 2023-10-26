@@ -46,5 +46,5 @@ OpenFreezeCenter-Lite allows users to read/write and control the EC of laptops, 
 ## Goals
 - [X] Fan Control
 - [X] Basic temperature and RPM monitoring
-- [ ] Battery Threshold
+- [X] Battery Threshold
 - [ ] Webcam control
