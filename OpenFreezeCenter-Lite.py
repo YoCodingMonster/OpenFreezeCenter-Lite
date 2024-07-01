@@ -64,16 +64,20 @@ def speed_checker(SPEEDS, OFFSET):
 def set_fan_mode():
     MODE = int(input("Set Fan Mode\n1 - Auto\n2 - Basic\n3 - Advanced\n4 - Cooler Booster [1 or 2 or 3 or 4] :-> "))
     if MODE == 1:
-        config_writer(PROFILE = 1)
+        config.PROFILE = 1
+        config_writer()
         ECT.fan_profile(0, [[config.AUTO_ADV_VALUES[0], config.AUTO_ADV_VALUES[1]], [config.COOLER_BOOSTER_OFF_ON_VALUES[0], config.COOLER_BOOSTER_OFF_ON_VALUES[1]]], config.CPU_GPU_FAN_SPEED_ADDRESS, speed_checker(config.AUTO_SPEED, 0))
     elif MODE == 2:
-        config_writer(PROFILE = 2)
+        config.PROFILE = 2
+        config_writer()
         ECT.fan_profile(0, [[config.AUTO_ADV_VALUES[0], config.AUTO_ADV_VALUES[2]], [config.COOLER_BOOSTER_OFF_ON_VALUES[0], config.COOLER_BOOSTER_OFF_ON_VALUES[1]]], config.CPU_GPU_FAN_SPEED_ADDRESS, speed_checker(BASIC_SPEED, 30 if (config.BASIC_OFFSET > 30) else -30 if (config.BASIC_OFFSET < -30) else config.BASIC_OFFSET))
     elif MODE == 3:
-        config_writer(PROFILE = 3)
+        config.PROFILE = 3
+        config_writer()
         ECT.fan_profile(0, [[config.AUTO_ADV_VALUES[0], config.AUTO_ADV_VALUES[2]], [config.COOLER_BOOSTER_OFF_ON_VALUES[0], config.COOLER_BOOSTER_OFF_ON_VALUES[1]]], config.CPU_GPU_FAN_SPEED_ADDRESS, speed_checker(config.ADV_SPEED, 0))
     elif MODE == 4:
-        config_writer(PROFILE = 4)
+        config.PROFILE = 4
+        config_writer()
         ECT.fan_profile(1, [config.COOLER_BOOSTER_OFF_ON_VALUES[0], config.COOLER_BOOSTER_OFF_ON_VALUES[2]])
     else: set_fan_mode(4)
 
