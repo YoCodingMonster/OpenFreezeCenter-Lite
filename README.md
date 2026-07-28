@@ -18,6 +18,23 @@ without the window.
 The two programs share `~/.config/openfreezecenter/config.json`, so a machine
 with both installed has one set of fan curves, not two.
 
+## Screenshots
+
+`openfreezecenter-lite status` — what is set, the curve in force, and the
+sensors right now:
+
+![status](docs/screenshot-status.png)
+
+`openfreezecenter-lite monitor` — temperatures, fan RPM, the extremes and a
+rolling graph, redrawn in place:
+
+![monitor](docs/screenshot-monitor.png)
+
+Run it with no command and it opens a menu, with the fan curve editor behind
+option 3:
+
+![the menu and the curve editor](docs/screenshot-curves.png)
+
 ## Requirements
 
 - Python 3.5 or newer — no PyGObject, no GTK, no `pip`, no virtual environment
